@@ -21,10 +21,62 @@
 String inputString = "";      // a String to hold incoming data
 bool stringComplete = false;  // whether the string is complete
 
+const int FRONT_LEFT_IN1 = 35;
+const int FRONT_LEFT_IN2 = 37;
+const int FRONT_LEFT_SPEED = 39;
+
+const int FRONT_RIGHT_IN1 = 41;
+const int FRONT_RIGHT_IN2 = 43;
+const int FRONT_RIGHT_SPEED = 45;
+
+const int BACK_LEFT_IN1 = 47;
+const int BACK_LEFT_IN2 = 49;
+const int BACK_LEFT_SPEED = 51;
+
+const int BACK_RIGHT_IN1 = 34;
+const int BACK_RIGHT_IN2 = 36;
+const int BACK_RIGHT_SPEED = 38;
+
+const bool magnetState = false;
+
 void setup() {
   // initialize serial:
+  Serial.begin(9600);
   Serial1.begin(9600);
   // reserve 200 bytes for the inputString:
+  pinMode(FRONT_LEFT_IN1, OUTPUT);
+  pinMode(FRONT_LEFT_IN2, OUTPUT);
+  pinMode(FRONT_LEFT_SPEED, OUTPUT);
+
+  pinMode(FRONT_RIGHT_IN1, OUTPUT);
+  pinMode(FRONT_RIGHT_IN2, OUTPUT);
+  pinMode(FRONT_RIGHTT_SPEED, OUTPUT);
+
+  pinMode(BACK_LEFT_IN1, OUTPUT);
+  pinMode(BACK_LEFT_IN2, OUTPUT);
+  pinMode(BACK_LEFT_SPEED, OUTPUT);
+  
+  pinMode(BACK_RIGHT_IN1, OUTPUT);
+  pinMode(BACK_RIGHT_IN2, OUTPUT);
+  pinMode(BACK_RIGHT_SPEED, OUTPUT);
+
+
+  digitalWrite(FRONT_LEFT_IN1, LOW);
+  digitalWrite(FRONT_LEFT_IN2, LOW);
+  analogWrite(FRONT_LEFT_SPEED, 0);  //0-255
+
+  digitalWrite(FRONT_RIGHT_IN1, LOW);
+  digitalWrite(FRONT_RIGHT_IN2, LOW);
+  analogWrite(FRONT_RIGHT_SPEED, 0);
+
+  digitalWrite(BACK_LEFT_IN1, LOW);
+  digitalWrite(BACK_LEFT_IN2, LOW);
+  analogWrite(BACK_LEFT_SPEED, 0);
+
+  digitalWrite(BACK_RIGHT_IN1, LOW);
+  digitalWrite(BACK_RIGHT_IN2, LOW);
+  analogWrite(BACK_RIGHT_SPEED, 0);
+
   inputString.reserve(200);
 }
 
@@ -32,10 +84,36 @@ void loop() {
   // print the string when a newline arrives:
   if (stringComplete) {
     Serial.println(inputString);//debug print
-    
+    if(inputString.startsWith("LJ")){  //LJ,123,67\n
+      //parse data to get x an y values
+
+
+    }
+    else if (inputString == "mD\n"){
+      //I think this should be depressed until you press it again instead of holding it
+      //Stuff
+      if(magnetState == false){
+        magnetState = true;
+      } else {
+        magnetState = false;
+      }
+      
+      if (magnetState == true){
+        digitalWrite(magnetPin, HIGH);
+      } else {
+        digitalWrite(magnetPin, LOW);
+      }
+      
+
+    }
     //else if button is pressed
-    //else if button isn't pressed
+
+    else if (inputString == "lD\n"){
+
+    }
     //else if button2 is pressed
+
+    else if (inputString == "lU\n")
     //else if button2 isn't pressed
 
     // clear the string:

@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.punchthrough.blestarterappandroid.R
 import com.punchthrough.blestarterappandroid.ble.ConnectionManager
 import timber.log.Timber
 import java.util.UUID
@@ -31,15 +30,29 @@ class Controller : AppCompatActivity() {
        // val btnLedOn = findViewById<Button>(R.id.button_led_on)
 
 
-        val btnControl = findViewById<Button>(R.id.button_led_on)
+        val btnControl = findViewById<Button>(R.id.button_lift)
         btnControl.setOnTouchListener { view, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    sendToArduino("1\n")
+                    sendToArduino("lD\n")
                     true
                 }
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                    sendToArduino("0\n")
+                    sendToArduino("lU\n")
+                    true
+                }
+                else -> false
+            }
+        }
+        val btnControl1 = findViewById<Button>(R.id.button_magnet)
+        btnControl1.setOnTouchListener { view, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    sendToArduino("mD\n")
+                    true
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    sendToArduino("mU\n")
                     true
                 }
                 else -> false

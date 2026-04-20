@@ -10,7 +10,7 @@
     >
 
     <Button
-        android:id="@+id/button_led_on"
+        android:id="@+id/button_lift"
         android:layout_width="187dp"
         android:layout_height="133dp"
         android:text="lift"
@@ -39,7 +39,7 @@
         />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button_magnet"
         android:layout_width="191dp"
         android:layout_height="130dp"
         android:text="Magnet"
