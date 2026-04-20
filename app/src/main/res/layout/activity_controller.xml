@@ -11,29 +11,44 @@
 
     <Button
         android:id="@+id/button_led_on"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="on"
+        android:layout_width="187dp"
+        android:layout_height="133dp"
+        android:text="lift"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.154"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.449"
         />
-		
-	<com.punchthrough.blestarterappandroid.JoystickView
+
+    <com.punchthrough.blestarterappandroid.JoystickView
         android:id="@+id/joystick_custom"
-        android:layout_width="312dp"
-        android:layout_height="295dp"
+        android:layout_width="438dp"
+        android:layout_height="415dp"
         android:layout_margin="8dp"
         android:layout_marginTop="212dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.896"
+        app:layout_constraintHorizontal_bias="0.935"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_led_on"
-        app:layout_constraintVertical_bias="0.686"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.862"
+        />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="191dp"
+        android:layout_height="130dp"
+        android:text="Magnet"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.152"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.734"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
