@@ -21,23 +21,24 @@
 String inputString = "";      // a String to hold incoming data
 bool stringComplete = false;  // whether the string is complete
 
-const int FRONT_LEFT_IN1 = 35;
-const int FRONT_LEFT_IN2 = 37;
-const int FRONT_LEFT_SPEED = 39;
+const byte FRONT_LEFT_IN1 = 31;
+const byte FRONT_LEFT_IN2 = 32;
+const byte FRONT_LEFT_SPEED = 45;
 
-const int FRONT_RIGHT_IN1 = 41;
-const int FRONT_RIGHT_IN2 = 43;
-const int FRONT_RIGHT_SPEED = 45;
+const byte FRONT_RIGHT_IN1 = 33;
+const byte FRONT_RIGHT_IN2 = 22;
+const byte FRONT_RIGHT_SPEED = 45;
 
-const int BACK_LEFT_IN1 = 47;
-const int BACK_LEFT_IN2 = 49;
-const int BACK_LEFT_SPEED = 51;
+const byte BACK_LEFT_IN1 = 30;
+const byte BACK_LEFT_IN2 = 48;
+const byte BACK_LEFT_SPEED = 45;
 
-const int BACK_RIGHT_IN1 = 34;
-const int BACK_RIGHT_IN2 = 36;
-const int BACK_RIGHT_SPEED = 38;
+const byte BACK_RIGHT_IN1 = 28;
+const byte BACK_RIGHT_IN2 = 29;
+const byte BACK_RIGHT_SPEED = 45;
 
-const bool magnetState = false;
+bool magnetState = false;
+byte magnetPin = 9;
 
 void setup() {
   // initialize serial:
@@ -50,7 +51,7 @@ void setup() {
 
   pinMode(FRONT_RIGHT_IN1, OUTPUT);
   pinMode(FRONT_RIGHT_IN2, OUTPUT);
-  pinMode(FRONT_RIGHTT_SPEED, OUTPUT);
+  pinMode(FRONT_RIGHT_SPEED, OUTPUT);
 
   pinMode(BACK_LEFT_IN1, OUTPUT);
   pinMode(BACK_LEFT_IN2, OUTPUT);
@@ -59,6 +60,8 @@ void setup() {
   pinMode(BACK_RIGHT_IN1, OUTPUT);
   pinMode(BACK_RIGHT_IN2, OUTPUT);
   pinMode(BACK_RIGHT_SPEED, OUTPUT);
+
+  pinMode(magnetState, OUTPUT);
 
 
   digitalWrite(FRONT_LEFT_IN1, LOW);
@@ -77,6 +80,7 @@ void setup() {
   digitalWrite(BACK_RIGHT_IN2, LOW);
   analogWrite(BACK_RIGHT_SPEED, 0);
 
+
   inputString.reserve(200);
 }
 
@@ -84,14 +88,24 @@ void loop() {
   // print the string when a newline arrives:
   if (stringComplete) {
     Serial.println(inputString);//debug print
-    if(inputString.startsWith("LJ")){  //LJ,123,67\n
-      //parse data to get x an y values
+    if(inputString.startsWith("LJ")){ 
+    // Example string: "LJ,128,255"
+    // Find the commas to split the string
+    int firstComma = inputString.indexOf(',');
+    int secondComma = inputString.indexOf(',', firstComma + 1);
+    
+    if (firstComma != -1 && secondComma != -1) {
+        int xVal = inputString.substring(firstComma + 1, secondComma).toInt();
+        int yVal = inputString.substring(secondComma + 1).toInt();
 
-
+        // Convert X/Y to motor speeds (Simple Tank Drive Example)
+        // Adjust these ranges based on your controller's output (usually 0-255)
+        int speed = map(yVal, 0, 255, -255, 255); 
+        moveRobot(speed, speed); 
     }
+}
     else if (inputString == "mD\n"){
       //I think this should be depressed until you press it again instead of holding it
-      //Stuff
       if(magnetState == false){
         magnetState = true;
       } else {
@@ -139,4 +153,26 @@ void serialEvent1() {
       stringComplete = true;
     }
   }
+}
+
+void moveRobot(int leftSpeed, int rightSpeed) {
+  // Front Left
+  digitalWrite(FRONT_LEFT_IN1, leftSpeed > 0 ? HIGH : LOW);
+  digitalWrite(FRONT_LEFT_IN2, leftSpeed > 0 ? LOW : HIGH);
+  analogWrite(FRONT_LEFT_SPEED, abs(leftSpeed));
+
+  // Front Right
+  digitalWrite(FRONT_RIGHT_IN1, rightSpeed > 0 ? HIGH : LOW);
+  digitalWrite(FRONT_RIGHT_IN2, rightSpeed > 0 ? LOW : HIGH);
+  analogWrite(FRONT_RIGHT_SPEED, abs(rightSpeed));
+
+  // BACK_LEFT
+  digitalWrite(BACK_LEFT_IN1, leftSpeed > 0 ? HIGH : LOW);
+  digitalWrite(BACK_LEFT_IN2, leftSpeed > 0 ? LOW : HIGH);
+  analogWrite(BACK_LEFT_SPEED, abs(leftSpeed));
+
+  // BACK_RIGHT
+  digitalWrite(BACK_RIGHT_IN1, leftSpeed > 0 ? HIGH : LOW);
+  digitalWrite(BACK_RIGHT_IN2, leftSpeed > 0 ? LOW : HIGH);
+  analogWrite(BACK_RIGHT_SPEED, abs(leftSpeed));
 }
