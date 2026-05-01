@@ -59,19 +59,24 @@ class Controller : AppCompatActivity() {
             }
         }
 
-        val joystick = findViewById<JoystickView>(R.id.joystick_custom)
-        joystick.onMoveListener = { angle, strength ->
-            sendJoystickPosition(angle, strength)
+        val joystickRight = findViewById<JoystickView>(R.id.right_joystick)
+        joystickRight.onMoveListener = { angle, strength ->
+            sendJoystickPosition(angle, strength,"RJ")
+        }
+
+        val joystickLeft = findViewById<JoystickView>(R.id.left_joystick)
+        joystickLeft.onMoveListener = { angle, strength ->
+            sendJoystickPosition(angle, strength,"LJ")
         }
     }
 
-    private fun sendJoystickPosition(angle: Int, strength: Int) {
+    private fun sendJoystickPosition(angle: Int, strength: Int,joyStickName: String) {
         val rad = Math.toRadians(angle.toDouble())
         val nx = cos(rad) * strength / 100.0
         val ny = -sin(rad) * strength / 100.0
         val bx = ((nx + 1.0) * 127.5).toInt().coerceIn(0, 255)-127
-        val by = ((ny + 1.0) * 127.5).toInt().coerceIn(0, 255)-127
-        sendToArduino("J,$bx,$by\n")
+        val by = (((ny + 1.0) * 127.5).toInt().coerceIn(0, 255)-127)*-1
+        sendToArduino("$joyStickName,$bx,$by\n")
     }
 
     private fun sendToArduino(command: String) {

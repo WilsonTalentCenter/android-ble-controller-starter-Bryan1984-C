@@ -9,6 +9,22 @@
     tools:context=".Controller"
     >
 
+    <com.punchthrough.blestarterappandroid.JoystickView
+        android:id="@+id/left_joystick"
+        android:layout_width="240dp"
+        android:layout_height="225dp"
+        android:layout_margin="8dp"
+        android:layout_marginTop="212dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.263"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.809"
+        />
+
     <Button
         android:id="@+id/button_lift"
         android:layout_width="187dp"
@@ -16,26 +32,26 @@
         android:text="lift"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.154"
+        app:layout_constraintHorizontal_bias="0.408"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.449"
+        app:layout_constraintVertical_bias="0.424"
         />
 
     <com.punchthrough.blestarterappandroid.JoystickView
-        android:id="@+id/joystick_custom"
-        android:layout_width="438dp"
-        android:layout_height="415dp"
+        android:id="@+id/right_joystick"
+        android:layout_width="240dp"
+        android:layout_height="225dp"
         android:layout_margin="8dp"
         android:layout_marginTop="212dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.935"
+        app:layout_constraintHorizontal_bias="0.776"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.862"
+        app:layout_constraintVertical_bias="0.804"
         />
 
     <Button
@@ -45,10 +61,10 @@
         android:text="Magnet"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.152"
+        app:layout_constraintHorizontal_bias="0.582"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.734"
+        app:layout_constraintVertical_bias="0.422"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
