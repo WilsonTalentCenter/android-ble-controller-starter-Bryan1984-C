@@ -9,6 +9,19 @@
     tools:context=".Controller"
     >
 
+    <Button
+        android:id="@+id/button_hammerUp"
+        android:layout_width="187dp"
+        android:layout_height="133dp"
+        android:text="Hammer RESET"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.607"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.424"
+        />
+
     <com.punchthrough.blestarterappandroid.JoystickView
         android:id="@+id/left_joystick"
         android:layout_width="240dp"
@@ -26,13 +39,13 @@
         />
 
     <Button
-        android:id="@+id/button_lift"
+        android:id="@+id/button_hammerDown"
         android:layout_width="187dp"
         android:layout_height="133dp"
-        android:text="lift"
+        android:text="Hammer DOWN"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.408"
+        app:layout_constraintHorizontal_bias="0.436"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.424"
@@ -61,10 +74,10 @@
         android:text="Magnet"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.582"
+        app:layout_constraintHorizontal_bias="0.523"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.422"
+        app:layout_constraintVertical_bias="0.755"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

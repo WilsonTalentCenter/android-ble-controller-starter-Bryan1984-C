@@ -21,24 +21,27 @@
 String inputString = "";      // a String to hold incoming data
 bool stringComplete = false;  // whether the string is complete
 
+const byte FRONT_RIGHT_IN1 = 33; //white
+const byte FRONT_RIGHT_IN2 = 32; //blue
+const byte FRONT_RIGHT_SPEED = 10; // yellow is speed
+
 const byte FRONT_LEFT_IN1 = 31;
-const byte FRONT_LEFT_IN2 = 32;
-const byte FRONT_LEFT_SPEED = 10;
+const byte FRONT_LEFT_IN2 = 22;
+const byte FRONT_LEFT_SPEED = 8;
 
-const byte FRONT_RIGHT_IN1 = 33;
-const byte FRONT_RIGHT_IN2 = 22;
-const byte FRONT_RIGHT_SPEED = 8;
+const byte BACK_RIGHT_IN1 = 34; //28
+const byte BACK_RIGHT_IN2 = 29; //50
+const byte BACK_RIGHT_SPEED = 13; //12
 
-const byte BACK_LEFT_IN1 = 30;
-const byte BACK_LEFT_IN2 = 48;
-const byte BACK_LEFT_SPEED = 11;
+const byte BACK_LEFT_IN1 = 28; //30
+const byte BACK_LEFT_IN2 = 50; //29
+const byte BACK_LEFT_SPEED = 12; //11
 
-const byte BACK_RIGHT_IN1 = 28;
-const byte BACK_RIGHT_IN2 = 29;
-const byte BACK_RIGHT_SPEED = 12;
+const byte magnetPWM = 9;
+const byte magnetDir = 24;
 
 bool magnetState = false;
-byte magnetPin = 9;
+
 
 void setup() {
   // initialize serial:
@@ -61,28 +64,34 @@ void setup() {
   pinMode(BACK_RIGHT_IN2, OUTPUT);
   pinMode(BACK_RIGHT_SPEED, OUTPUT);
 
-  pinMode(magnetPin, OUTPUT);
+  pinMode(magnetPWM, OUTPUT);
 
-
-  digitalWrite(FRONT_LEFT_IN1, LOW);
-  digitalWrite(FRONT_LEFT_IN2, LOW);
-  analogWrite(FRONT_LEFT_SPEED, 0);  //0-255
 
   digitalWrite(FRONT_RIGHT_IN1, LOW);
   digitalWrite(FRONT_RIGHT_IN2, LOW);
-  analogWrite(FRONT_RIGHT_SPEED, 0);
+  analogWrite(FRONT_RIGHT_SPEED, 0);  //0-255
 
-  digitalWrite(BACK_LEFT_IN1, LOW);
-  digitalWrite(BACK_LEFT_IN2, LOW);
-  analogWrite(BACK_LEFT_SPEED, 0);
+  digitalWrite(FRONT_LEFT_IN1, LOW);
+  digitalWrite(FRONT_LEFT_IN2, LOW);
+  analogWrite(FRONT_LEFT_SPEED, 0);
 
   digitalWrite(BACK_RIGHT_IN1, LOW);
   digitalWrite(BACK_RIGHT_IN2, LOW);
   analogWrite(BACK_RIGHT_SPEED, 0);
 
+  digitalWrite(BACK_LEFT_IN1, LOW);
+  digitalWrite(BACK_LEFT_IN2, LOW);
+  analogWrite(BACK_LEFT_SPEED, 0);
+
   // new 5.5v output pin
+  pinMode(magnetDir, OUTPUT);
   pinMode(53, OUTPUT);
   digitalWrite(53, HIGH);
+  digitalWrite(magnetDir, HIGH);
+  analogWrite(magnetPWM, 0);
+
+
+
 
 
   inputString.reserve(200);
@@ -108,7 +117,7 @@ void loop() {
 
           // Convert X/Y to motor speeds (Simple Tank Drive Example)
           // Adjust these ranges based on your controller's output (usually 0-255)
-          leftSpeed = yVal*2; 
+          rightSpeed = yVal*2; 
       }
   } else if(inputString.startsWith("LJ")) {
     int firstComma = inputString.indexOf(',');
@@ -117,15 +126,16 @@ void loop() {
           int xVal = inputString.substring(firstComma + 1, secondComma).toInt();
           int yVal = inputString.substring(secondComma + 1).toInt();
 
-          rightSpeed = yVal*2;
+          Serial.print("gfjh: ");
+          Serial.println(yVal);
+          leftSpeed = -yVal*2;
       }
   }
 
 
   else if (inputString.startsWith("mD")){
       magnetState = !magnetState; // Toggle state
-      digitalWrite(magnetPin, magnetState ? HIGH : LOW);
-      digitalWrite(magnetPin, magnetState ? HIGH : LOW);
+      analogWrite(magnetPWM, magnetState ? 255 : 0);
       digitalWrite(LED_BUILTIN, magnetState ? HIGH : LOW);
     }
 
@@ -162,7 +172,6 @@ void moveRobot(int leftSpeed, int rightSpeed) {
   digitalWrite(FRONT_LEFT_IN1, leftSpeed > 0 ? HIGH : LOW);
   digitalWrite(FRONT_LEFT_IN2, leftSpeed > 0 ? LOW : HIGH);
   analogWrite(FRONT_LEFT_SPEED, abs(leftSpeed));
-  Serial.print(abs(leftSpeed));
 
   // Front Right
   digitalWrite(FRONT_RIGHT_IN1, rightSpeed > 0 ? HIGH : LOW);
@@ -175,7 +184,7 @@ void moveRobot(int leftSpeed, int rightSpeed) {
   analogWrite(BACK_LEFT_SPEED, abs(leftSpeed));
 
   // BACK_RIGHT
-  digitalWrite(BACK_RIGHT_IN1, leftSpeed > 0 ? HIGH : LOW);
-  digitalWrite(BACK_RIGHT_IN2, leftSpeed > 0 ? LOW : HIGH);
+  digitalWrite(BACK_RIGHT_IN1, rightSpeed > 0 ? HIGH : LOW);
+  digitalWrite(BACK_RIGHT_IN2, rightSpeed > 0 ? LOW : HIGH);
   analogWrite(BACK_RIGHT_SPEED, abs(rightSpeed));
 }

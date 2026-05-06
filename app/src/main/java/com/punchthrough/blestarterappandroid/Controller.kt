@@ -30,22 +30,38 @@ class Controller : AppCompatActivity() {
        // val btnLedOn = findViewById<Button>(R.id.button_led_on)
 
 
-        val btnControl = findViewById<Button>(R.id.button_lift)
+        val btnControl = findViewById<Button>(R.id.button_hammerDown)
         btnControl.setOnTouchListener { view, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    sendToArduino("lD\n")
+                    sendToArduino("ahD\n") //asD Arm Hammer
                     true
                 }
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                    sendToArduino("lU\n")
+                    sendToArduino("ahU\n")
                     true
                 }
                 else -> false
             }
         }
-        val btnControl1 = findViewById<Button>(R.id.button_magnet)
+
+        val btnControl1 = findViewById<Button>(R.id.button_hammerUp)
         btnControl1.setOnTouchListener { view, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    sendToArduino("arD\n")
+                    true
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    sendToArduino("arU\n")
+                    true
+                }
+                else -> false
+            }
+        }
+
+        val btnControl2 = findViewById<Button>(R.id.button_magnet)
+        btnControl2.setOnTouchListener { view, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     sendToArduino("mD\n")
