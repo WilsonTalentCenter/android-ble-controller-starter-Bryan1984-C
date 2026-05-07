@@ -39,8 +39,10 @@ const byte BACK_LEFT_SPEED = 12; //11
 
 const byte magnetPWM = 9;
 const byte magnetDir = 24;
-
 bool magnetState = false;
+
+const byte hammerPWM = 3;
+const byte hammerDir = 25;
 
 
 void setup() {
@@ -64,7 +66,7 @@ void setup() {
   pinMode(BACK_RIGHT_IN2, OUTPUT);
   pinMode(BACK_RIGHT_SPEED, OUTPUT);
 
-  pinMode(magnetPWM, OUTPUT);
+
 
 
   digitalWrite(FRONT_RIGHT_IN1, LOW);
@@ -84,12 +86,20 @@ void setup() {
   analogWrite(BACK_LEFT_SPEED, 0);
 
   // new 5.5v output pin
+  pinMode(magnetPWM, OUTPUT);
   pinMode(magnetDir, OUTPUT);
   pinMode(53, OUTPUT);
   digitalWrite(53, HIGH);
   digitalWrite(magnetDir, HIGH);
   analogWrite(magnetPWM, 0);
 
+  // new 5.5v output pin for hammer
+  pinMode(hammerPWM, OUTPUT);
+  pinMode(hammerDir, OUTPUT);
+  // pinMode(3, OUTPUT);
+  // digitalWrite(3, HIGH);
+  digitalWrite(hammerDir, HIGH);
+  analogWrite(hammerPWM, 0);
 
 
 
@@ -132,12 +142,31 @@ void loop() {
       }
   }
 
-
+  // Activate/deactivate magnet
   else if (inputString.startsWith("mD")){
-      magnetState = !magnetState; // Toggle state
-      analogWrite(magnetPWM, magnetState ? 255 : 0);
-      digitalWrite(LED_BUILTIN, magnetState ? HIGH : LOW);
-    }
+    magnetState = !magnetState; // Toggle state
+    analogWrite(magnetPWM, magnetState ? 255 : 0);
+    digitalWrite(LED_BUILTIN, magnetState ? HIGH : LOW); //Is this necessary?
+  }
+
+  // Hammer down
+  else if (inputString.startsWith("ahD")){
+    digitalWrite(hammerDir, HIGH);
+    analogWrite(hammerPWM, 255);
+
+  } else if (inputString.startsWith("ahU")){
+    analogWrite(hammerPWM, 0);
+  }
+
+  // Hammer reset
+  else if (inputString.startsWith("arD")){
+    digitalWrite(hammerDir, LOW);
+    analogWrite(hammerPWM, 128);
+
+  } else if (inputString.startsWith("arU")){
+    analogWrite(hammerPWM, 0);
+  }
+
 
     // clear the string:
     inputString = "";
